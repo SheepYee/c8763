@@ -12,15 +12,8 @@ function filterTable($query)
     return $filter_Result;
 }
 
-$sql = "SELECT * FROM `printing_service`";
-$post = filterTable($sql);
-
-
-
-$sql = "SELECT * FROM `printing_service_img`";
-$img = filterTable($sql);
-
-
+$sql = "SELECT * FROM `printing_service` JOIN `printing_service_img` where `printing_service`.`printing_id`=`printing_service_img`.`printing_id`";
+$print = filterTable($sql);
 
 ?>
 <!DOCTYPE html>
@@ -95,11 +88,7 @@ http://www.tooplate.com/view/2081-solution
                             <img src="images/banner3.jpg" alt="Slide 1">
                             <div class="slider-caption">
                                 <div class="templatemo_homewrapper">
-                                    <!-- <h1 class="wow fadeInDown" data-wow-delay="2000" style="color: black;">哲興印刷</h1>
-                                    <h2 class="wow fadeInDown" data-wow-delay="2000" style="color: black;">
-                                        <span>第十一屆台灣金印獎 &AMP; 數位印刷應用類 第二名</span>
-                                    </h2>
-                                    <a href="#service" class="smoothScroll btn btn-default wow fadeInDown" data-wow-delay="2000">印刷服務</a>-->
+
                                 </div>
                             </div>
                         </li>
@@ -116,32 +105,35 @@ http://www.tooplate.com/view/2081-solution
 
     <div id="team">
         <div class="container">
+            <div class="col-md-12">
+                <h2 class="wow bounce">印刷服務</h2>
+            </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <h2 class="wow bounce">印刷服務</h2>
-                </div>
+            <?php 
+            $i = 1;
+            while($row = mysqli_fetch_array($print)):
+             if($i==1 or $i ==4) {echo '<div class="row">';}
+                                ?>
 
-                <div class="col-md-4 col-sm-4 wow fadeIn" data-wow-delay="0.3s">
-                    <?php while($row = mysqli_fetch_array($img)):?>
-                    <?php echo "<img src='imgs/".$row['printing_img'].".jpg'>" ?>
+            <div class="col-md-4 col-sm-4 wow fadeIn" data-wow-delay="0.3s">
 
-                    <?php while($row = mysqli_fetch_array($post)):?>
-                    <h3>
-                        <?php echo $row['printing_title'];?>
-                    </h3>
-                    <p>
-                        <?php echo $row['printing_detail'];?>
-                    </p>
-                    <?php endwhile; ?>
-                    <?php endwhile; ?>
-
-
-
-                </div>
+                <?php echo "<img style='width:250px;' src='imgs/".$row['printing_img'].".jpg'>" ?>
+                <h3>
+                    <?php echo $row['printing_title'];?>
+                </h3>
+                <p>
+                    <?php echo $row['printing_detail'];?>
+                </p>
 
             </div>
 
+
+            <?php if($i==3 or $i==6) {echo '</div>';} ?>
+
+
+            <?php 
+            $i++;
+            endwhile; ?>
 
         </div>
     </div>
